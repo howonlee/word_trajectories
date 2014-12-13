@@ -10,6 +10,7 @@ def get_bigrams(ls):
     return zip(ls, ls[1:])
 
 def plot_sparse(mat):
+    plt.cla()
     plt.spy(mat, markersize=0.1)
     plt.xlabel("start word label")
     plt.ylabel("end word label")
@@ -39,7 +40,16 @@ def bigram_to_address(bigram, word_map):
 if __name__ == "__main__":
     bigrams = get_bigrams(brown.words())
     word_dict = word_mapping(brown.words())
-    print bigram_to_address(bigrams, word_dict)
-    #mat = bigram_to_mat(bigrams, word_dict)
-    #mat = mat[:1000, :1000]
-    #plot_sparse(mat)
+    addresses = bigram_to_address(bigrams, word_dict)
+    curr_mat = sci_sp.dok_matrix((len(word_dict), len(word_dict)))
+    frame_count = 0
+    for address in addresses:
+        frame_count += 1
+        curr_mat[address[0], address[1]] += 1
+        fname = "_tmp%09d.png" % frame_count
+        print fname
+        plt.clf()
+        plt.spy(curr_mat)
+        plt.xlabel("start word label")
+        plt.ylabel("end word label")
+        plt.savefig(fname)
