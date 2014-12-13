@@ -43,13 +43,16 @@ if __name__ == "__main__":
     addresses = bigram_to_address(bigrams, word_dict)
     curr_mat = sci_sp.dok_matrix((len(word_dict), len(word_dict)))
     frame_count = 0
-    for address in addresses:
+    bigram_range = 400
+    for address_idx in xrange(bigram_range):
+        address = addresses[address_idx]
         frame_count += 1
         curr_mat[address[0], address[1]] += 1
         fname = "_tmp%09d.png" % frame_count
         print fname
         plt.clf()
-        plt.spy(curr_mat)
+        mat = curr_mat[:bigram_range//2, :bigram_range//2]
+        plt.spy(mat)
         plt.xlabel("start word label")
         plt.ylabel("end word label")
         plt.savefig(fname)
