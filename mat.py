@@ -30,9 +30,16 @@ def bigram_to_mat(bigram, word_map):
         mat[word_map[prevword], word_map[word]] += 1
     return mat
 
+def bigram_to_address(bigram, word_map):
+    addresses = []
+    for prevword, word in bigram:
+        addresses.append((word_map[prevword], word_map[word]))
+    return addresses
+
 if __name__ == "__main__":
     bigrams = get_bigrams(brown.words())
     word_dict = word_mapping(brown.words())
-    mat = bigram_to_mat(bigrams, word_dict)
-    mat = mat[:1000, :1000]
-    plot_sparse(mat)
+    print bigram_to_address(bigrams, word_dict)
+    #mat = bigram_to_mat(bigrams, word_dict)
+    #mat = mat[:1000, :1000]
+    #plot_sparse(mat)
