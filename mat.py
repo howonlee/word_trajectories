@@ -51,7 +51,8 @@ if __name__ == "__main__":
         fname = "_tmp%09d.png" % frame_count
         print fname
         plt.clf()
-        mat = curr_mat[:bigram_range//2, :bigram_range//2]
+        mat = curr_mat[:bigram_range//2, :bigram_range//2].todense()
+        np.fill_diagonal(mat, 0)
         plt.spy(mat)
         plt.xlabel("start word label")
         plt.ylabel("end word label")
